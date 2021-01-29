@@ -17,7 +17,7 @@ class Response {
    * @returns {object} Error
    */
   static errorHelper(res, data) {
-    res.status(400).json(data);
+   return  res.status(400).json(data);
   }
 }
 

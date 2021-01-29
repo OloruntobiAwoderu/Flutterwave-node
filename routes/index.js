@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const homeRoute = require("./homeRoute");
+const validateRoute = require('./validateRoute')
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/", homeRoute);
+app.use('/validate-rule', validateRoute)
 
 app.use("/*", (req, res) =>
   res.status(404).json({ message: "This endpoint does not exist" })

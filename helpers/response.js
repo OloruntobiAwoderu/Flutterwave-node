@@ -1,8 +1,12 @@
+/**
+ * @description Response class
+ */
 class Response {
   /**
    * @description - successResponse
    * @param {object} res
    * @param {object} data
+   * @param {number} status
    * @returns {object} Success
    */
 
@@ -17,7 +21,7 @@ class Response {
    * @returns {object} Error
    */
   static errorHelper(res, data) {
-   return  res.status(400).json(data);
+    return res.status(400).json(data);
   }
 }
 

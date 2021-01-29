@@ -1,7 +1,21 @@
 const Response = require("../helpers/response");
 const ValidateTypes = require("../helpers/validateTypes");
+const {
+  successHelper,
+  logicErrorResponse,
+  middlewreErrorResponse,
+} = require("../helpers/SuccessError");
 
+/**
+ * @description ValidateRuleLogic class
+ */
 class ValidateRuleLogic {
+  /**
+   * @description return a JSON data
+   * @param {Object} req - HTTP Request
+   * @param {Object} res - HTTP Response
+   * @return {Object} Returned object
+   */
   static validateRule(req, res) {
     const { data, rule } = req.body;
     const { field, condition, condition_value } = rule;
@@ -10,9 +24,9 @@ class ValidateRuleLogic {
     let fieldToValidate = data;
     fieldData.forEach((element) => {
       fieldToValidate = fieldToValidate[element];
-	});
-	console.log(field)
-    const isValidated = ValidateRuleLogic.testCondition(
+    });
+    console.log(field);
+    const isValidated = ValidateRuleLogic.testValidation(
       res,
       field,
       condition,
@@ -20,38 +34,21 @@ class ValidateRuleLogic {
       condition_value
     );
     if (isValidated) {
-      const returnMessage = {
-        message: `field ${field} successfully validated.`,
-        status: "success",
-        data: {
-          validation: {
-            error: false,
-            field,
-            field_value: fieldToValidate,
-            condition,
-            condition_value,
-          },
-        },
-      };
-      return Response.successResponse(res, 200, returnMessage);
+      return successHelper(res, field, condition, condition_value);
     }
-    const returnMessage = {
-      message: `field ${field} failed validation.`,
-      status: "error",
-      data: {
-        validation: {
-          error: true,
-          field,
-          field_value: fieldToValidate,
-          condition,
-          condition_value,
-        },
-      },
-    };
-    return Response.errorHelper(res, returnMessage);
+    return logicErrorResponse(res, field, condition, condition_value);
   }
 
-  static testCondition(
+  /**
+   * @description returns Error or Success Validation data
+   * @param {Object} res - HTTPResponse
+   * @param {Object} field - string
+   * @param {Object} condition - string
+   * @param {Object} fieldToValidate - string
+   * @param {Object} condition_value - string
+   * @return {Object} Returned object
+   */
+  static testValidation(
     res,
     field,
     condition,
@@ -64,38 +61,23 @@ class ValidateRuleLogic {
       case "neq":
         return fieldToValidate != condition_value;
       case "contains":
-		  console.log(fieldToValidate)
+        console.log(fieldToValidate);
         if (Array.isArray(fieldToValidate)) {
           return fieldToValidate.includes(condition_value);
         }
         const message = `${field} should be an array.`;
-        const returnMessage = {
-          message,
-          status: "error",
-          data: null,
-        };
-        return Response.errorHelper(res, returnMessage);
+        return middlewreErrorResponse(res, message);
       case "gte":
         if (!ValidateTypes.isNumber(fieldToValidate)) {
           const message = `${field} should be a number.`;
-          const returnMessage = {
-            message,
-            status: "error",
-            data: null,
-          };
-          return Response.errorHelper(res, returnMessage);
+          return middlewreErrorResponse(res, message);
         }
         return fieldToValidate >= condition_value;
 
       case "gte":
         if (!ValidateTypes.isNumber(fieldToValidate)) {
           const message = `${field} should be a number.`;
-          const returnMessage = {
-            message,
-            status: "error",
-            data: null,
-          };
-          return Response.errorHelper(res, returnMessage);
+          return middlewreErrorResponse(res, message);
         }
         return field_value >= condition_value;
       default:

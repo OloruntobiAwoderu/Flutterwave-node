@@ -2,9 +2,11 @@ const express = require("express");
 const { validateRule } = require("../controllers/validateRule");
 const {
   validateBody,
-  validateDatabodyType,
+  validateDataBodyType,
+  validateRulebodyType,
   validateRuleConditionExists,
   validateifRuleFieldExistsinData,
+  validateRuleFieldDataType,
 } = require("../middlewares/index");
 
 const router = express.Router();
@@ -12,7 +14,9 @@ const router = express.Router();
 router.post(
   "/",
   validateBody,
-  validateDatabodyType,
+  validateRulebodyType,
+  validateRuleFieldDataType,
+  validateDataBodyType,
   validateRuleConditionExists,
   validateifRuleFieldExistsinData,
   validateRule

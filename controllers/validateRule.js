@@ -3,7 +3,7 @@ const ValidateTypes = require("../helpers/validateTypes");
 const {
   successHelper,
   logicErrorResponse,
-  middlewreErrorResponse,
+  middlewareErrorResponse,
 } = require("../helpers/SuccessError");
 
 /**
@@ -66,18 +66,18 @@ class ValidateRuleLogic {
           return fieldToValidate.includes(condition_value);
         }
         const message = `${field} should be an array.`;
-        return middlewreErrorResponse(res, message);
+        return middlewareErrorResponse(res, message);
       case "gte":
         if (!ValidateTypes.isNumber(fieldToValidate)) {
           const message = `${field} should be a number.`;
-          return middlewreErrorResponse(res, message);
+          return middlewareErrorResponse(res, message);
         }
         return fieldToValidate >= condition_value;
 
       case "gte":
         if (!ValidateTypes.isNumber(fieldToValidate)) {
           const message = `${field} should be a number.`;
-          return middlewreErrorResponse(res, message);
+          return middlewareErrorResponse(res, message);
         }
         return field_value >= condition_value;
       default:

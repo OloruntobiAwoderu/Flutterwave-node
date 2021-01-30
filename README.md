@@ -17,7 +17,7 @@ To get started, clone this repository on your local machine using the following 
 
 Open your terminal and navigate to the folder you want the project to be and enter the the following commands:
 ```
-$ git clone -b develop https://github.com/OloruntobiAwoderu/Flutterwave-node.git
+$ git clone https://github.com/OloruntobiAwoderu/Flutterwave-node.git
 $ cd Flutterwave-node
 $ npm install
 ```

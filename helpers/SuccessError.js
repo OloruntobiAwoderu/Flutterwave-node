@@ -10,7 +10,7 @@ class ReturnResponse {
    * @param {Object} message - string
    * @return {res} res payload
    */
-  static middlewreErrorResponse(res, message) {
+  static middlewareErrorResponse(res, message) {
     const returnMessage = {
       message,
       status: "error",
